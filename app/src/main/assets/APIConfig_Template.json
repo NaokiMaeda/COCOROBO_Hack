@@ -1,0 +1,5 @@
+{
+  "AuthenticationURL"	: "https://developer.cloudlabs.sharp.co.jp/cloudlabs-api/cocorobo/auth" ,
+  "SpeechURL"			: "https://developer.cloudlabs.sharp.co.jp/cloudlabs-api/cocorobo/speech" ,
+  "APIKey"				: ""
+}
