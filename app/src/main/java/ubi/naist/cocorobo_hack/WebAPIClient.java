@@ -16,32 +16,38 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import ubi.naist.cocorobo_hack.json_message.APIConfig;
-import ubi.naist.cocorobo_hack.json_message.AuthenticationResponse;
+import ubi.naist.cocorobo_hack.json_message.WebAPIResponse;
 
 /**
  * Created by naoki-ma on 2015/11/10.
  */
-public class HttpClient extends AsyncTask<Object , Void , AuthenticationResponse>{
+public class WebAPIClient extends AsyncTask<HashMap<String , String>, Void , WebAPIResponse>{
 	private	APIConfig	apiConfig;
 	private	Context		context;
 	private Gson		gson;
 
-	public HttpClient(Context context , APIConfig config){
+	public WebAPIClient(Context context, APIConfig config){
 		this.context	= context;
 		this.apiConfig	= config;
 	}
 
 	@Override
-	protected AuthenticationResponse doInBackground(Object[] objects) {
-		AuthenticationResponse response = null;
+	protected WebAPIResponse doInBackground(HashMap<String , String>... data) {
+		WebAPIResponse response = null;
 		gson = new Gson();
 		try {
 			JSONObject json = new JSONObject();
-			json.put("apikey_cocorobo", apiConfig.APIKey);
+
+			for(Map.Entry<String , String> d : data[0].entrySet()){
+				json.put(d.getKey() , d.getValue());
+			}
+
 			String jsonParam = json.toString();
 
 			URLConnection connection = new URL(apiConfig.AuthenticationURL).openConnection();
@@ -56,7 +62,7 @@ public class HttpClient extends AsyncTask<Object , Void , AuthenticationResponse
 			if (httpsConnection.getResponseCode() == 200) {
 				InputStream inputStream = httpsConnection.getInputStream();
 				JsonReader jsonReader = new JsonReader(new InputStreamReader(inputStream));
-				response = gson.fromJson(jsonReader, AuthenticationResponse.class);
+				response = gson.fromJson(jsonReader, WebAPIResponse.class);
 				inputStream.close();
 			} else {
 				return null;
@@ -70,13 +76,21 @@ public class HttpClient extends AsyncTask<Object , Void , AuthenticationResponse
 	}
 
 	@Override
-	protected void	onPostExecute(AuthenticationResponse response){
+	protected void	onPostExecute(WebAPIResponse response){
 		if(response == null)	return;
-		if(Integer.parseInt(response.resultCode) == 0){
-			Toast.makeText(context , response.data.expireData , Toast.LENGTH_SHORT).show();
-		}else{
-			Toast.makeText(context , response.errorCode , Toast.LENGTH_SHORT).show();
+		String message = null;
+		switch (Integer.parseInt(response.resultCode)){
+			case 0 :
+				message = response.data.expireDate;
+				break;
+			case 1 :
+				message = response.message;
+				break;
+			default:
+				message = "謎のエラー";
+				break;
 		}
+		Toast.makeText(context , message , Toast.LENGTH_LONG).show();
 	}
 
 }
