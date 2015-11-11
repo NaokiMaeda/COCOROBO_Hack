@@ -14,8 +14,8 @@ import java.util.HashMap;
 import ubi.naist.cocorobo_hack.json_message.APIConfig;
 
 public class MainActivity extends Activity {
-	private			APIConfig		config;
 	private final	String			APIConfig = "APIConfig.json";
+	private			APIConfig		config;
 	private			WebAPIClient	webAPIClient;
 
 	@Override
