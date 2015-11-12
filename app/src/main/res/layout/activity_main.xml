@@ -32,11 +32,12 @@
         android:layout_row      = "0"
         />
 
-    <Button
+    <ToggleButton
         android:id              = "@+id/driveButton"
         android:layout_width    = "wrap_content"
         android:layout_height   = "wrap_content"
-        android:text            = "前進"
+        android:textOn          = "停止"
+        android:textOff         = "前進"
         android:layout_column   = "2"
         android:layout_row      = "1"
         />
@@ -50,29 +51,32 @@
         android:layout_row      = "2"
         />
 
-    <Button
+    <ToggleButton
         android:id              = "@+id/rightTurnButton"
         android:layout_width    = "wrap_content"
         android:layout_height   = "wrap_content"
-        android:text            = "右回転"
+        android:textOn          = "停止"
+        android:textOff         = "右回転"
         android:layout_column   = "3"
         android:layout_row      = "2"
         />
 
-    <Button
+    <ToggleButton
         android:id              = "@+id/leftTurnButton"
         android:layout_width    = "wrap_content"
         android:layout_height   = "wrap_content"
-        android:text            = "左回転"
+        android:textOn          = "停止"
+        android:textOff         = "左回転"
         android:layout_column   = "1"
         android:layout_row      = "2"
         />
 
-    <Button
+    <ToggleButton
         android:id              = "@+id/homeButton"
         android:layout_width    = "wrap_content"
         android:layout_height   = "wrap_content"
-        android:text            = "帰宅"
+        android:textOn          = "停止"
+        android:textOff         = "帰宅"
         android:layout_column   = "2"
         android:layout_row      = "3"
         />

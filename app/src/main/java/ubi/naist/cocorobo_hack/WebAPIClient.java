@@ -32,9 +32,16 @@ public class WebAPIClient extends AsyncTask<HashMap<String , String>, Void , Web
 	private	Context		context;
 	private Gson		gson;
 
-	public WebAPIClient(Context context, APIConfig config){
+	private	String		url;
+
+	public WebAPIClient(Context context, APIConfig config , String mode){
 		this.context	= context;
 		this.apiConfig	= config;
+		if(mode.equals("Authentication")){
+			url = config.AuthenticationURL;
+		}else if(mode.equals("Speech")){
+			url = config.SpeechURL;
+		}
 	}
 
 	@Override
@@ -49,8 +56,7 @@ public class WebAPIClient extends AsyncTask<HashMap<String , String>, Void , Web
 			}
 
 			String jsonParam = json.toString();
-
-			URLConnection connection = new URL(apiConfig.AuthenticationURL).openConnection();
+			URLConnection connection = new URL(url).openConnection();
 			HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
 			httpsConnection.setRequestProperty("Content-Type", "application/json");
 			httpsConnection.setRequestMethod("POST");
@@ -67,9 +73,7 @@ public class WebAPIClient extends AsyncTask<HashMap<String , String>, Void , Web
 			} else {
 				return null;
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}
 		return response;
@@ -81,16 +85,17 @@ public class WebAPIClient extends AsyncTask<HashMap<String , String>, Void , Web
 		String message = null;
 		switch (Integer.parseInt(response.resultCode)){
 			case 0 :
-				message = response.data.expireDate;
+				//message = response.data.expireDate;
+				message = "成功";
 				break;
 			case 1 :
-				message = response.message;
+				message = response.errorCode;
 				break;
 			default:
 				message = "謎のエラー";
 				break;
 		}
-		Toast.makeText(context , message , Toast.LENGTH_LONG).show();
+		Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 	}
 
 }
