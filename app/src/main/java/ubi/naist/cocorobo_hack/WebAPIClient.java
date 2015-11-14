@@ -37,10 +37,16 @@ public class WebAPIClient extends AsyncTask<HashMap<String , String>, Void , Web
 	public WebAPIClient(Context context, APIConfig config , String mode){
 		this.context	= context;
 		this.apiConfig	= config;
-		if(mode.equals("Authentication")){
-			url = config.AuthenticationURL;
-		}else if(mode.equals("Speech")){
-			url = config.SpeechURL;
+
+		switch (mode){
+			case "Authentication" :
+				url = config.AuthenticationURL;
+				break;
+			case "Speech" :
+				url = config.SpeechURL;
+				break;
+			default:
+				break;
 		}
 	}
 
