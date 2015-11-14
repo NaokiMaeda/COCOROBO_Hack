@@ -28,15 +28,14 @@ public class SpeechEventListener implements View.OnClickListener{
 	@Override
 	public void onClick(View view) {
 		String msg = speechText.getText().toString();
-		speechData = new HashMap<>();
-		speechData.put("apikey_cocorobo" , config.APIKey);
-		speechData.put("message", msg);
-		webAPIClient = new WebAPIClient(context , config , "Speech");
-		webAPIClient.execute(speechData);
-		speechText.setText("");
 
 		if(msg.length() > 0 && msg.length() <= 255){
-
+			speechData = new HashMap<>();
+			speechData.put("apikey_cocorobo" , config.APIKey);
+			speechData.put("message", msg);
+			webAPIClient = new WebAPIClient(context , config , "Speech");
+			webAPIClient.execute(speechData);
+			speechText.setText("");
 		}
 	}
 }
